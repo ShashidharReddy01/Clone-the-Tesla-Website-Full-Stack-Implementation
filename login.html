@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Tesla Model S Configurator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .form-group label {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .button {
+      background-color: #0070f3;
+      color: white;
+      font-size: 18px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    .button:hover {
+      background-color: #005bb5;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    .footer a {
+      color: #0070f3;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Login to Continue</h2>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required />
+    </div>
+    <button class="button" id="loginButton">Login</button>
+
+    <div class="footer">
+      <p>Don't have an account? <a href="#">Sign up here</a>.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginButton').addEventListener('click', function() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (email && password) {
+        // Simulate a successful login
+        // In a real-world scenario, you would verify credentials with an API here
+        localStorage.setItem('userLoggedIn', true);
+        window.location.href = 'checkout.html';  // Redirect to the checkout page
+      } else {
+        alert('Please enter both email and password.');
+      }
+    });
+  </script>
+
+</body>
+</html>

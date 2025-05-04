@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Tesla Model S</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f2f2f2, #e0e0e0);
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 40px;
+      letter-spacing: -0.5px;
+    }
+
+    .order-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .summary-item {
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .summary-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .summary-item strong {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .total-price {
+      font-size: 1.75rem;
+      color: #0070f3;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #0070f3;
+      outline: none;
+    }
+
+    .button {
+      background-color: #0070f3;
+      color: white;
+      font-size: 18px;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #005bb5;
+      transform: translateY(-3px);
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .summary-item span {
+      color: #555;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .order-summary {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Checkout</h1>
+
+    <div class="order-summary">
+      <div class="summary-item">
+        <span><strong>Model:</strong> Tesla Model S</span>
+        <span id="colorDisplay"></span>
+      </div>
+      <div class="summary-item">
+        <span><strong>Interior:</strong></span>
+        <span id="interiorDisplay"></span>
+      </div>
+      <div class="summary-item">
+        <span><strong>Steering:</strong></span>
+        <span id="steeringDisplay"></span>
+      </div>
+      <div class="summary-item">
+        <span><strong>Full Self Driving:</strong></span>
+        <span id="fsdDisplay"></span>
+      </div>
+      <div class="summary-item">
+        <span><strong>Gas Savings:</strong></span>
+        <span id="gasSavingsDisplay"></span>
+      </div>
+      <div class="summary-item">
+        <span><strong>Accessories:</strong></span>
+        <span id="accessoriesDisplay"></span>
+      </div>
+
+      <div class="total-price">
+        <span><strong>Total: </strong><span id="finalPrice">$0</span></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="address">Shipping Address</label>
+      <input type="text" id="address" placeholder="Enter your address" required />
+    </div>
+
+    <button class="button" id="placeOrderButton">Place Order</button>
+  </div>
+
+  <div class="footer">
+    <p>By placing an order, you agree to our <a href="#">Terms & Conditions</a>.</p>
+  </div>
+
+  <script>
+    // Fetch order details from localStorage
+    const orderDetails = JSON.parse(localStorage.getItem('orderDetails'));
+
+    if (orderDetails) {
+      // Display selected customizations and final price
+      document.getElementById('colorDisplay').textContent = orderDetails.color;
+      document.getElementById('interiorDisplay').textContent = orderDetails.interior;
+      document.getElementById('steeringDisplay').textContent = orderDetails.steering;
+      document.getElementById('fsdDisplay').textContent = orderDetails.fullSelfDriving ? 'Yes' : 'No';
+      document.getElementById('gasSavingsDisplay').textContent = orderDetails.gasSaving ? '$6,500' : 'No';
+      
+      // Display selected accessories
+      const accessoriesText = orderDetails.accessories.length > 0
+        ? orderDetails.accessories.join(', ')
+        : 'None';
+      document.getElementById('accessoriesDisplay').textContent = accessoriesText;
+
+      // Calculate final price
+      let totalPrice = parseFloat(orderDetails.price.replace('$', '').replace(',', ''));
+      if (orderDetails.fullSelfDriving) totalPrice += 8000;
+      if (orderDetails.gasSaving) totalPrice -= 6500;
+      orderDetails.accessories.forEach(accessory => {
+        totalPrice += parseFloat(accessory);
+      });
+
+      document.getElementById('finalPrice').textContent = `$${totalPrice.toLocaleString()}`;
+    } else {
+      alert('No order details found.');
+      window.location.href = 'index.html';  // Redirect to home if no order is found
+    }
+
+    // Handle order placement
+    document.getElementById('placeOrderButton').addEventListener('click', function() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const address = document.getElementById('address').value;
+
+      if (name && email && address) {
+        // Here you can send order data to a backend API
+        alert('Your order has been placed successfully!');
+
+        // Optionally, clear local storage or redirect to a thank you page
+        localStorage.removeItem('orderDetails');
+        window.location.href = 'thank-you.html'; // Redirect to a thank you page
+      } else {
+        alert('Please fill out all fields.');
+      }
+    });
+  </script>
+
+</body>
+</html>

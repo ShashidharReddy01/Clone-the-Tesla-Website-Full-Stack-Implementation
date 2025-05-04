@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Model S Configurator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #222;
+      display: flex;
+      height: 100vh;
+      position: relative;
+    }
+    .main {
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      background-color: white;
+    }
+    .image-viewer {
+      width: 100%;
+      max-height: 75vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .image-viewer img {
+      width: 90%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .controls {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      z-index: 10;
+    }
+    .controls button {
+      background: none;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #333;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+    }
+    .controls button:hover {
+      transform: scale(1.1);
+    }
+    
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 350px;
+      height: auto;
+      z-index: 100;
+    }
+    .summary {
+      width: 30%;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: relative;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 15px;
+      margin-bottom: 25px;
+    }
+    .option-group {
+      margin-bottom: 20px;
+    }
+    .option-group label {
+      display: block;
+      margin: 6px 0;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .price-summary {
+      position: sticky;
+      bottom: 0;
+      background: white;
+      padding-top: 15px;
+      border-top: 1px solid #ccc;
+      margin-top: 30px;
+    }
+    .color-icon, .interior-icon, .wheel-icon {
+      height: 40px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: transform 0.2s;
+    }
+    .color-icon:hover, .interior-icon:hover, .wheel-icon:hover {
+      transform: scale(1.05);
+    }
+    .selected {
+      outline: 2px solid #0070f3;
+    }
+    .subtext {
+      font-size: 12px;
+      color: gray;
+    }
+    a {
+      text-decoration: none;
+      color: #0070f3;
+    }
+
+    /* Order Now Button */
+    .order-now {
+      background-color: #0070f3;
+      color: white;
+      font-size: 18px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .order-now:hover {
+      background-color: #005bb5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Logo at the top left -->
+<img src="file:///C:/Users/GP%2065/Downloads/Tesla_WebDesign/tesla_img/images/logo.png" alt="Tesla Logo" class="logo"/>
+
+<div class="main">
+  <div class="image-viewer">
+    <img id="mainImage" src="tesla_img/images/MS-COLOR/GREY_TEMPEST_BLACK_1.jpeg" alt="Model S"/>
+    <div class="controls">
+      <button onclick="prevImage()">&#8592;</button>
+      <button onclick="nextImage()">&#8594;</button>
+    </div>
+  </div>
+</div>
+
+<div class="summary">
+  <h1>Model S</h1>
+  <div class="specs">
+    <div>410 mi</div><div>Range (EPA est.)</div>
+    <div>130 mph</div><div>Top Speed</div>
+    <div>3.1 s</div><div>0–60 mph</div>
+  </div>
+
+  <div class="option-group">
+    <strong id="paintLabel">Included - Stealth Grey</strong>
+    <div id="paintOptions">
+      <img class="color-icon selected" onclick="selectPaint('GREY')" src="tesla_img/images/MS-ICONS/Paint_StealthGrey.avif"/>
+      <img class="color-icon" onclick="selectPaint('WHITE')" src="tesla_img/images/MS-ICONS/Paint_White.avif"/>
+      <img class="color-icon" onclick="selectPaint('RED')" src="tesla_img/images/MS-ICONS/Red_Paint_R2.avif"/>
+    </div>
+  </div>
+
+  <div class="option-group">
+    <strong id="interiorLabel">Included - All Black Interior</strong>
+    <span id="interiorDecor">Ebony Decor</span>
+    <div>
+      <img class="interior-icon selected" onclick="selectInterior('BLACK')" src="tesla_img/images/MS-ICONS/Interior_Black.avif"/>
+      <img class="interior-icon" onclick="selectInterior('WHITE')" src="tesla_img/images/MS-ICONS/Interior_White.avif"/>
+      <img class="interior-icon" onclick="selectInterior('CREAM')" src="tesla_img/images/MS-ICONS/Interior_Cream.avif"/>
+    </div>
+  </div>
+
+  <div class="option-group">
+    <strong id="steeringLabel">Included - Steering Wheel</strong>
+    <div>
+      <img class="wheel-icon selected" onclick="selectSteering('WHEEL')" src="tesla_img/images/MS-ICONS/WHEEL.png"/>
+      <img class="wheel-icon" onclick="selectSteering('YOKE')" src="tesla_img/images/MS-ICONS/YOKE.png"/>
+    </div>
+  </div>
+
+  <div class="checkbox-row">
+    <input type="checkbox" id="gasSaving" onchange="updatePrice()"/>
+    <label for="gasSaving">Include est. 5-year gas savings of $6,500</label>
+  </div>
+
+  <div class="option-group">
+    <p><strong>Full Self-Driving (Supervised)</strong><br/>Your car will be able to drive itself almost anywhere with minimal driver intervention</p>
+    <div class="checkbox-row">
+      <input type="checkbox" id="fsd" onchange="updatePrice()"/>
+      <label for="fsd">Full Self Driving - $8,000</label>
+    </div>
+  </div>
+
+  <div class="option-group">
+    <label><input type="checkbox" class="accessory" value="105" onchange="updatePrice()"/> Sunshade $105</label>
+    <label><input type="checkbox" class="accessory" value="250" onchange="updatePrice()"/> All weather interior liners $250</label>
+    <label><input type="checkbox" class="accessory" value="450" onchange="updatePrice()"/> Roof rack $450</label>
+  </div>
+
+  <div class="price-summary">
+    <strong>Est. Purchase Price</strong><br/>
+    <div id="priceDisplay">$80,990</div>
+    <div class="subtext">Includes Destination and Order Fee</div>
+    <br/>
+    
+    <!-- Add Order Now button here -->
+    <button id="orderNowButton" class="order-now" onclick="checkout()">Order Now</button>
+    
+    <br/>
+    <a href="#">Explore Financing</a>
+    <br/>
+    <p><strong>Due Today</strong><br/>$250<br/>Non-refundable Order Fee</p>
+  </div>
+</div>
+
+<script>
+  let currentColor = 'GREY';
+  let currentInterior = 'BLACK';
+  let currentSteering = 'WHEEL';
+  let imageIndex = 1;
+  let isInteriorView = false;
+  let currentInteriorImage = '';
+
+  const basePrice = 80990;
+  const paintPrices = { GREY: 0, WHITE: 1500, RED: 2500 };
+  const interiorPrices = { BLACK: 0, WHITE: 2000, CREAM: 2000 };
+  const steeringPrices = { WHEEL: 0, YOKE: 1000 };
+
+  function updateMainImage() {
+    const mainImage = document.getElementById('mainImage');
+    mainImage.src = isInteriorView ? currentInteriorImage :
+      `tesla_img/images/MS-COLOR/${currentColor}_TEMPEST_BLACK_${imageIndex}.jpeg`;
+  }
+
+  function prevImage() {
+    if (isInteriorView) return;
+    imageIndex = imageIndex > 1 ? imageIndex - 1 : 3;
+    updateMainImage();
+  }
+
+  function nextImage() {
+    if (isInteriorView) return;
+    imageIndex = imageIndex < 3 ? imageIndex + 1 : 1;
+    updateMainImage();
+  }
+
+  function selectPaint(color) {
+    isInteriorView = false;
+    currentColor = color;
+    document.getElementById('paintLabel').innerText =
+      (paintPrices[color] ? `$${paintPrices[color]} - ` : 'Included - ') +
+      (color === 'GREY' ? 'Stealth Grey' : color === 'WHITE' ? 'Pearl White' : 'Ultra Red');
+    updateMainImage();
+    updatePrice();
+    updateSelected('color-icon', color);
+  }
+
+  function selectInterior(type) {
+    isInteriorView = true;
+    currentInterior = type;
+    document.getElementById('interiorLabel').innerText =
+      (interiorPrices[type] ? `$${interiorPrices[type]} - ` : 'Included - ') +
+      (type === 'BLACK' ? 'All Black Interior' : type === 'WHITE' ? 'Black and White Interior' : 'Cream Interior');
+    document.getElementById('interiorDecor').innerText =
+      type === 'BLACK' ? 'Ebony Decor' : 'Walnut Decor';
+
+    let imageFileName = '';
+    if (type === 'BLACK') {
+      imageFileName = currentSteering === 'YOKE' ? 'interior_black_yoke.jpeg' : 'interior_black_wheel.jpeg';
+    } else if (type === 'WHITE') {
+      imageFileName = currentSteering === 'YOKE' ? 'interior_white_yoke.jpeg' : 'interior_white_wheel.jpeg';
+    } else if (type === 'CREAM') {
+      imageFileName = currentSteering === 'YOKE' ? 'interior_cream_yoke.jpeg' : 'interior_cream_wheel.jpeg';
+    }
+    currentInteriorImage = `tesla_img/images/MS-INTERIORS/${imageFileName}`;
+    updateMainImage();
+    updatePrice();
+    updateSelected('interior-icon', type);
+  }
+
+  function selectSteering(type) {
+    currentSteering = type;
+    selectInterior(currentInterior);  // Re-select the interior to update the image
+    updatePrice();
+    updateSelected('wheel-icon', type);
+  }
+
+  function updatePrice() {
+    let totalPrice = basePrice +
+      paintPrices[currentColor] +
+      interiorPrices[currentInterior] +
+      steeringPrices[currentSteering];
+      
+    if (document.getElementById('fsd').checked) totalPrice += 8000;
+    if (document.getElementById('gasSaving').checked) totalPrice += 6500;
+    
+    document.getElementById('priceDisplay').innerText = `$${totalPrice.toLocaleString()}`;
+  }
+
+  function updateSelected(className, value) {
+    const icons = document.querySelectorAll(`.${className}`);
+    icons.forEach(icon => {
+      icon.classList.remove('selected');
+      if (icon.src.includes(value)) icon.classList.add('selected');
+    });
+  }
+
+  function checkout() {
+    if (localStorage.getItem('userLoggedIn')) {
+      const orderDetails = {
+        color: currentColor,
+        interior: currentInterior,
+        steering: currentSteering,
+        fullSelfDriving: document.getElementById('fsd').checked,
+        gasSaving: document.getElementById('gasSaving').checked,
+        accessories: Array.from(document.querySelectorAll('.accessory:checked')).map(el => el.value),
+        price: document.getElementById('priceDisplay').innerText
+      };
+      localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+      window.location.href = 'checkout.html';
+    } else {
+      window.location.href = 'login.html';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif; /* Luxurious and modern font */
+}
+
+body {
+  background-color: #111;
+  color: #fff;
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+  width: 180px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+.nav-center {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-center a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: #ff6a00;
+  transition: width 0.3s ease;
+}
+
+.nav-center a:hover::after {
+  width: 100%;
+}
+
+.nav-center a:hover {
+  color: #ff6a00;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  background: url("tesla_img/images/image-1.png") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), #111);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 40px;
+  text-align: center;
+  color: #fff;
+}
+
+.hero-content h1 {
+  font-size: 80px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 22px;
+  color: #bbb;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.hero-content .btn.primary {
+  margin-top: 40px;
+}
+
+/* SCROLL MODELS */
+.model-section {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  padding: 80px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.model-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.model-header {
+  position: absolute;
+  top: 50px;
+  left: 30px;
+  font-size: 64px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.specs {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin-top: 100px;
+}
+
+.spec-item {
+  text-align: center;
+}
+
+.spec-item .value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.spec-item .label {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ff6a00; /* Red color for the small text */
+  margin-top: 10px;
+}
+
+.actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.actions a {
+  padding: 12px 20px;
+  background: #fff;
+  color: #000;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.actions a:hover {
+  background: #ddd;
+  transform: scale(1.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .model-header {
+    font-size: 36px;
+    left: 20px;
+    top: 20px;
+  }
+
+  .specs {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .spec-item {
+    margin-bottom: 20px;
+  }
+
+  .actions {
+    top: 10px;
+    right: 10px;
+  }
+}
