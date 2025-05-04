@@ -88,9 +88,14 @@ start index.html
 
 ---
 
-## 📸 Screenshots
+## 📸 Current Progress Demo
 
-> *You can add screenshots or GIFs here showing the configurator UI*
+
+
+
+https://github.com/user-attachments/assets/32a0dd37-c7b5-48f7-91c6-c9eb191580d2
+
+
 
 ---
 
