@@ -291,59 +291,74 @@
     if (type === 'BLACK') {
       imageFileName = currentSteering === 'YOKE' ? 'interior_black_yoke.jpeg' : 'interior_black_wheel.jpeg';
     } else if (type === 'WHITE') {
-      imageFileName = currentSteering === 'YOKE' ? 'interior_white_yoke.jpeg' : 'interior_white_wheel.jpeg';
+      imageFileName = currentSteering === 'YOKE' ? 'interior_black_white_yoke.jpeg' : 'interior_black_white_wheel.jpeg';
     } else if (type === 'CREAM') {
       imageFileName = currentSteering === 'YOKE' ? 'interior_cream_yoke.jpeg' : 'interior_cream_wheel.jpeg';
     }
-    currentInteriorImage = `tesla_img/images/MS-INTERIORS/${imageFileName}`;
+
+    currentInteriorImage = `tesla_img/images/MS-INTERIOR/${imageFileName}`;
     updateMainImage();
     updatePrice();
     updateSelected('interior-icon', type);
   }
 
   function selectSteering(type) {
+    isInteriorView = true;
     currentSteering = type;
-    selectInterior(currentInterior);  // Re-select the interior to update the image
+    document.getElementById('steeringLabel').innerText =
+      type === 'WHEEL' ? 'Included - Steering Wheel' : 'Included - Yoke Steering';
+
+    let imageFileName = '';
+    if (currentInterior === 'BLACK') {
+      imageFileName = type === 'YOKE' ? 'interior_black_yoke.jpeg' : 'interior_black_wheel.jpeg';
+    } else if (currentInterior === 'WHITE') {
+      imageFileName = type === 'YOKE' ? 'interior_black_white_yoke.jpeg' : 'interior_black_white_wheel.jpeg';
+    } else if (currentInterior === 'CREAM') {
+      imageFileName = type === 'YOKE' ? 'interior_cream_yoke.jpeg' : 'interior_cream_wheel.jpeg';
+    }
+
+    currentInteriorImage = `tesla_img/images/MS-INTERIOR/${imageFileName}`;
+    updateMainImage();
     updatePrice();
     updateSelected('wheel-icon', type);
   }
 
   function updatePrice() {
-    let totalPrice = basePrice +
-      paintPrices[currentColor] +
-      interiorPrices[currentInterior] +
-      steeringPrices[currentSteering];
-      
-    if (document.getElementById('fsd').checked) totalPrice += 8000;
-    if (document.getElementById('gasSaving').checked) totalPrice += 6500;
-    
-    document.getElementById('priceDisplay').innerText = `$${totalPrice.toLocaleString()}`;
+    let total = basePrice + paintPrices[currentColor] + interiorPrices[currentInterior] + steeringPrices[currentSteering];
+
+    if (document.getElementById('fsd').checked) total += 8000;
+    if (document.getElementById('gasSaving').checked) total -= 6500;
+
+    document.querySelectorAll('.accessory:checked').forEach(el => {
+      total += parseInt(el.value);
+    });
+
+    document.getElementById('priceDisplay').innerText = `$${total.toLocaleString()}`;
   }
 
   function updateSelected(className, value) {
-    const icons = document.querySelectorAll(`.${className}`);
-    icons.forEach(icon => {
-      icon.classList.remove('selected');
-      if (icon.src.includes(value)) icon.classList.add('selected');
-    });
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach(el => el.classList.remove('selected'));
+    const selectedElement = Array.from(elements).find(el => el.src.toLowerCase().includes(value.toLowerCase()));
+    if (selectedElement) selectedElement.classList.add('selected');
   }
 
   function checkout() {
-    if (localStorage.getItem('userLoggedIn')) {
-      const orderDetails = {
-        color: currentColor,
-        interior: currentInterior,
-        steering: currentSteering,
-        fullSelfDriving: document.getElementById('fsd').checked,
-        gasSaving: document.getElementById('gasSaving').checked,
-        accessories: Array.from(document.querySelectorAll('.accessory:checked')).map(el => el.value),
-        price: document.getElementById('priceDisplay').innerText
-      };
-      localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
-      window.location.href = 'checkout.html';
-    } else {
-      window.location.href = 'login.html';
-    }
+    const orderDetails = {
+      color: currentColor,
+      interior: currentInterior,
+      steering: currentSteering,
+      fullSelfDriving: document.getElementById('fsd').checked,
+      gasSaving: document.getElementById('gasSaving').checked,
+      accessories: Array.from(document.querySelectorAll('.accessory:checked')).map(el => el.value),
+      price: document.getElementById('priceDisplay').innerText
+    };
+
+    // Store order details in localStorage
+    localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+
+    // Redirect to checkout page
+    window.location.href = 'checkout.html';
   }
 </script>
 
